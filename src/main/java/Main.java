@@ -1,4 +1,9 @@
+
+import com.pengrad.telegrambot.BotUtils;
 import com.pengrad.telegrambot.TelegramBot;
+import com.pengrad.telegrambot.UpdatesListener;
+import com.pengrad.telegrambot.model.Update;
+import com.pengrad.telegrambot.request.SetWebhook;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
@@ -9,11 +14,18 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.FileSystemAlreadyExistsException;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class Main {
 
+    private static TelegramBot bot;
+
     public static void main(String[] args) throws IOException {
+
+        bot = new TelegramBot(System.getenv("TOKEN"));
+
         HttpServer server = HttpServer.create();
         server.bind(new InetSocketAddress(Integer.parseInt(System.getenv("PORT"))), 0);
         server.createContext("/", new MainHandler());
@@ -26,7 +38,10 @@ public class Main {
         public void handle(HttpExchange exchange){
             String request = new BufferedReader(new InputStreamReader(exchange.getRequestBody(), StandardCharsets.UTF_8)).lines().collect(Collectors.joining(" "));
 
-            System.out.println("Запрос: "+request);
+            Update update = BotUtils.parseUpdate(request);
+
+            System.out.println(update.toString());
+
             String answer = "OK";
             byte[] bytes = answer.getBytes();
             OutputStream response = exchange.getResponseBody();
