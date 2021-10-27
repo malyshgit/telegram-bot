@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.nio.charset.StandardCharsets;
+import java.util.stream.Collectors;
 
 public class Main {
 
@@ -23,7 +24,7 @@ public class Main {
     private static class MainHandler implements HttpHandler {
         @Override
         public void handle(HttpExchange exchange){
-            String request = new BufferedReader(new InputStreamReader(exchange.getRequestBody(), StandardCharsets.UTF_8)).lines().toString();
+            String request = new BufferedReader(new InputStreamReader(exchange.getRequestBody(), StandardCharsets.UTF_8)).lines().collect(Collectors.joining(" "));
 
             System.out.println("Запрос: "+request);
             String answer = "OK";
