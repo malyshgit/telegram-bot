@@ -60,17 +60,9 @@ public class Main {
                 e.printStackTrace();
             }
 
-            SendMessage sendMessage = new SendMessage(update.message().chat().id(), update.message().text())
-                    .parseMode(ParseMode.HTML)
-                    .disableWebPagePreview(true)
-                    .disableNotification(true)
-                    .replyToMessageId(1)
-                    .replyMarkup(new ForceReply());
+            SendMessage sendMessage = new SendMessage(update.message().chat().id(), update.message().text());
 
-// sync
             SendResponse sendResponse = bot.execute(sendMessage);
-            boolean ok = sendResponse.isOk();
-            Message message = sendResponse.message();
         }
     }
 }
