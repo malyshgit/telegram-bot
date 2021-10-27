@@ -1,0 +1,1 @@
+web: java $JAVA_OPTS -jar target/telegram-bot-1.0.jar
