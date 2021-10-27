@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -jar target/telegram-bot-1.0.jar
+web: java $JAVA_OPTS -jar target/telegram-bot-1.0-jar-with-dependencies.jar
